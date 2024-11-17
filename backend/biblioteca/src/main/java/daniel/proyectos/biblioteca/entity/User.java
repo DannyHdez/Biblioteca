@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @Column(name = "account_disabled", nullable = false)
     private boolean accountDisabled = false;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore //To avoid infinite recursion
     private List<Book> books;
 

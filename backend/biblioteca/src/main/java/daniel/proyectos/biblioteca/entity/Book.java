@@ -16,6 +16,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, unique = true)
+    private String isbn;
+
     @Column(nullable = false, name = "title_es")
     private String titleEs;
 
@@ -25,13 +28,13 @@ public class Book {
     @Column(name = "title_ca")
     private String titleCa;
 
-    @ManyToOne
-    @JoinColumn(name = "editorial_id")
-    private Editorial editorial;
-
     @Column(name = "publication_date")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "editorial_id")
+    private Editorial editorial;
 
     @JsonIgnoreProperties
     @ManyToMany

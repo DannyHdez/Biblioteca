@@ -2,6 +2,8 @@
 package daniel.proyectos.biblioteca.service;
 
 import daniel.proyectos.biblioteca.dto.BookDTO;
+import daniel.proyectos.biblioteca.dto.CreateBookRequest;
+import daniel.proyectos.biblioteca.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,5 +18,5 @@ public interface BookService {
     void deleteById(Integer id);
     void delete(BookDTO entity);
     List<BookDTO> findAllByUserId(int userId);
-
+    BookDTO createBook(CreateBookRequest request, User user);
 }

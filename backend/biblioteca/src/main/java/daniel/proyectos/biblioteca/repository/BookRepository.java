@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findByUserId(int userId);
+    boolean existsByIsbn(String isbn);
 }

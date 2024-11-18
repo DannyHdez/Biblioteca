@@ -24,11 +24,12 @@ public class BookMapperImpl implements BookMapper {
 
         BookDTO dto = new BookDTO();
         dto.setId(book.getId());
+        dto.setIsbn(book.getIsbn());
         dto.setTitleEs(book.getTitleEs());
         dto.setTitleEn(book.getTitleEn());
         dto.setTitleCa(book.getTitleCa());
-        dto.setEditorial(toEditorialInfoDTO(book.getEditorial()));
         dto.setPublicationDate(book.getPublicationDate());
+        dto.setEditorial(toEditorialInfoDTO(book.getEditorial()));
 
         // Convert list of authors to AuthorInfoDTO
         dto.setAuthors(book.getAuthors().stream()
@@ -49,6 +50,7 @@ public class BookMapperImpl implements BookMapper {
 
         Book book = new Book();
         book.setId(bookDTO.getId());
+        book.setIsbn(bookDTO.getIsbn());
         book.setTitleEs(bookDTO.getTitleEs());
         book.setTitleEn(bookDTO.getTitleEn());
         book.setTitleCa(bookDTO.getTitleCa());

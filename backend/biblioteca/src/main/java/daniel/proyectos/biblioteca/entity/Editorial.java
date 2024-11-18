@@ -14,8 +14,14 @@ public class Editorial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
+
+    @Column
+    private String country;
+
+    @Column
+    private Integer foundedYear;
 
     @Column
     private String logo;

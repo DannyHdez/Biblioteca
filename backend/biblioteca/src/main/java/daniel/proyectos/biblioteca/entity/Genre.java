@@ -21,5 +21,4 @@ public class Genre {
     @ManyToMany(mappedBy = "genres")
     private List<Book> books;
 
-    // Getters y setters
 }

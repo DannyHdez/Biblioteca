@@ -28,6 +28,18 @@ public class Book {
     @Column(name = "title_ca")
     private String titleCa;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column
+    private String language = "ES";
+
+    @Column
+    private Integer pageCount;
+
+    @Column
+    private String coverUrl;
+
     @Column(name = "publication_date")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
@@ -36,16 +48,16 @@ public class Book {
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
 
-    @JsonIgnoreProperties
-    @ManyToMany
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties("books")
+    private User user;
+
+    @JsonIgnoreProperties("books")
+    @ManyToMany(mappedBy = "books")
     private List<Author> authors;
 
-    @JsonIgnoreProperties
+    @JsonIgnoreProperties("books")
     @ManyToMany
     @JoinTable(
             name = "book_genre",
@@ -54,8 +66,4 @@ public class Book {
     )
     private List<Genre> genres;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties("books") // Avoid infinite recursion in JSON serialization
-    private User user;
 }

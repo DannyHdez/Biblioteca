@@ -1,0 +1,31 @@
+<nav class="navbar">
+    <!-- Home Link -->
+    <div class="nav-home">
+        <a routerLink="/home">{{ 'HOME' | translate }}</a>
+    </div>
+
+    <!-- Center Links -->
+    <div class="nav-center">
+        <ng-container *ngIf="isLoggedIn(); else guestLinks">
+            <a (click)="logout()">{{ 'LOGOUT' | translate }}</a>
+        </ng-container>
+        <ng-template #guestLinks>
+            <a routerLink="/login">{{ 'LOGIN' | translate }}</a>
+            <a routerLink="/register">{{ 'REGISTER' | translate }}</a>
+        </ng-template>
+    </div>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <img [src]="selectedFlag" alt="Selected language" class="flag" (mouseover)="showLanguages = true"
+            (mouseleave)="showLanguages = false" />
+        <div class="language-options" *ngIf="showLanguages" (mouseleave)="showLanguages = false">
+            <img src="assets/images/flags/es.avif" alt="Español"
+                (click)="changeLanguage('es', 'assets/images/flags/es.avif')" />
+            <img src="assets/images/flags/en.avif" alt="English"
+                (click)="changeLanguage('en', 'assets/images/flags/en.avif')" />
+            <img src="assets/images/flags/cat.avif" alt="Català"
+                (click)="changeLanguage('ca', 'assets/images/flags/cat.avif')" />
+        </div>
+    </div>
+</nav>

@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -13,8 +14,12 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Generate a secure key automatically
-    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private final SecretKey SECRET_KEY;
+
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.SECRET_KEY = Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
     private final long EXPIRATION_TIME = 86400000; // 1 día en milisegundos
 
     // Generate the JWT token using the username

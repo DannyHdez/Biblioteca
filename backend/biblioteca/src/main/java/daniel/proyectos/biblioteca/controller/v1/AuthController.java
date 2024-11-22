@@ -42,6 +42,47 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+        User user = userService.findByUsername(authRequest.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (user.isAccountDisabled()) {
+            return ResponseEntity.status(403).body("The account is disabled.");
+        }
+
+        try {
+            // Authenticate the user only if the account is enabled
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+            );
+
+            String jwt = jwtUtil.generateToken(authRequest.getUsername());
+            return ResponseEntity.ok("Bearer " + jwt);
+
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
+    }
+
+    /**
+     * Endpoint to log in
+     */
+    /*@Operation(
+            summary = "Log in a user",
+            description = "Authenticate a user and generate a JWT token.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(examples = {
+                            @ExampleObject(name = "Valid credentials", value = "{ \"username\": \"john_doe\", \"password\": \"securePassword123\" }"),
+                            @ExampleObject(name = "Invalid credentials", value = "{ \"username\": \"john_doe\", \"password\": \"wrongPassword\" }")
+                    })
+            )
+    )
+    @ApiResponse(responseCode = "200", description = "User authenticated successfully",
+            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "{ \"token\": \"Bearer eyJhbGciOiJIUzUxMiJ9...\" }")))
+    @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials",
+            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "{ \"error\": \"Invalid username or password\" }")))*/
+
     /**
      * Endpoint to reactivate account
      */
@@ -135,43 +176,4 @@ public class AuthController {
         return ResponseEntity.ok("Bearer " + jwt);
     }
 
-    /**
-     * Endpoint to log in
-     */
-    @Operation(
-            summary = "Log in a user",
-            description = "Authenticate a user and generate a JWT token.",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    content = @Content(examples = {
-                            @ExampleObject(name = "Valid credentials", value = "{ \"username\": \"john_doe\", \"password\": \"securePassword123\" }"),
-                            @ExampleObject(name = "Invalid credentials", value = "{ \"username\": \"john_doe\", \"password\": \"wrongPassword\" }")
-                    })
-            )
-    )
-    @ApiResponse(responseCode = "200", description = "User authenticated successfully",
-            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "{ \"token\": \"Bearer eyJhbGciOiJIUzUxMiJ9...\" }")))
-    @ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials",
-            content = @Content(mediaType = "application/json", examples = @ExampleObject(value = "{ \"error\": \"Invalid username or password\" }")))
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
-        User user = userService.findByUsername(authRequest.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (user.isAccountDisabled()) {
-            return ResponseEntity.status(403).body("The account is disabled.");
-        }
-
-        try {
-            // Authenticate the user only if the account is enabled
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-            );
-
-            String jwt = jwtUtil.generateToken(authRequest.getUsername());
-            return ResponseEntity.ok("Bearer " + jwt);
-
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(401).body("Invalid username or password");
-        }
-    }
 }

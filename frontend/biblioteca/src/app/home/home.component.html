@@ -1,0 +1,13 @@
+<div class="books-container">
+    <div class="book-card" *ngFor="let book of books" (click)="selectBook(book)">
+        <img [src]="book.cover_url" alt="Book cover" />
+        <h3>{{ book.title }}</h3>
+    </div>
+</div>
+
+<div *ngIf="selectedBook" class="book-details">
+    <img [src]="selectedBook.cover_url" alt="Selected book cover" />
+    <h2>{{ selectedBook.title }}</h2>
+    <p>{{ selectedBook.description }}</p>
+    <button (click)="closeBookDetails()">{{ 'CLOSE' | translate }}</button>
+</div>

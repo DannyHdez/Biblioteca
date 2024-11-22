@@ -1,0 +1,16 @@
+<div class="user-home">
+    <h1>{{ 'hello' | translate }} {{ username }}</h1>
+    <div class="user-books">
+        <div *ngFor="let book of userBooks" class="book-card" (click)="selectBook(book)"
+            [class.selected]="selectedBook === book">
+            <div class="front" *ngIf="selectedBook !== book">
+                <h3>{{ book.title }}</h3>
+            </div>
+            <div class="back" *ngIf="selectedBook === book">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.description }}</p>
+                <button (click)="closeBook($event)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

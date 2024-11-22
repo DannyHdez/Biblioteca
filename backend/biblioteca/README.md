@@ -30,7 +30,7 @@ Un sistema para gestionar libros, autores, géneros y usuarios.
 
 4. Configura las credenciales de la base de datos en el archivo application.properties:
     ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/biblioteca
+   spring.datasource.url=jdbc:mysql://localhost:8080/biblioteca
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
    

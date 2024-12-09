@@ -17,23 +17,19 @@ Un sistema para gestionar libros, autores, géneros y usuarios.
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/biblioteca.git
+   git clone https://github.com/DannyHdez/Biblioteca.git
    cd biblioteca
 
-2. Crea la base de datos y tablas ejecutando el archivo schema.sql:
-   ```bash
-   mysql -u usuario -p < src/main/resources/schema.sql
-
-3. Inserta datos de ejemplo con el archivo data.sql:
+2. Inserta datos de ejemplo con el archivo data.sql:
     ```bash
    mysql -u usuario -p < src/main/resources/data.sql
 
-4. Configura las credenciales de la base de datos en el archivo application.properties:
+3. Configura las credenciales de la base de datos en el archivo application.properties:
     ```properties
    spring.datasource.url=jdbc:mysql://localhost:8080/biblioteca
    spring.datasource.username=tu_usuario
    spring.datasource.password=tu_contraseña
    
-5. Ejecuta la aplicación:
+4. Ejecuta la aplicación:
     ```bash
    mvn spring-boot:run
